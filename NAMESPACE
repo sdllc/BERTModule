@@ -3,5 +3,7 @@
 S3method(close,js.client.progress.bar)
 S3method(print,history.list)
 export(BERT.graphics.device)
+export(ncol)
+export(nrow)
 export(range.to.data.frame)
 useDynLib(BERTModule)

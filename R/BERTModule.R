@@ -405,6 +405,24 @@ history <- function( max.show=25, reverse=FALSE, pattern="" ){
 
 #==============================================================================
 #
+# exported generics for xlReference
+#
+#==============================================================================
+
+#' @export nrow
+nrow.xlReference <- function(x){ 
+  if( x@R2 >= x@R1 ){ return( x@R2-x@R1+1 ); }
+  else{ return(1); }
+}
+
+#' @export ncol
+ncol.xlReference <- function(x){ 
+  if( x@C2 >= x@C1 ){ return( x@C2-x@C1+1 ); }
+  else{ return(1); }
+}
+
+#==============================================================================
+#
 # .onLoad
 #
 #==============================================================================
@@ -496,17 +514,15 @@ history <- function( max.show=25, reverse=FALSE, pattern="" ){
   setClass( "xlReference", 
     slots = c( R1 = "numeric", C1 = "numeric", R2 = "numeric", C2 = "numeric", SheetID = "numeric" ),
     prototype = list( R1 = 0, C1 = 0, R2 = 0, C2 = 0, SheetID = c(0,0))
-    );
+  );
 
-  suppressMessages(setMethod( "nrow", "xlReference", function(x){ 
-    if( x@R2 >= x@R1 ){ return( x@R2-x@R1+1 ); }
-    else{ return(1); }
-  }, where = asNamespace("BERTModule")));
+  # why can't nrow and ncol be defined the same way as show?
+  # it just doesn't work.  in any event these need to be exported.
 
-  suppressMessages(setMethod( "ncol", "xlReference", function(x){ 
-    if( x@C2 >= x@C1 ){ return( x@C2-x@C1+1 ); }
-    else{ return(1); }
-  }, where = asNamespace("BERTModule")));
+  suppressMessages(setMethod( "nrow", "xlReference", nrow.xlReference ));
+  suppressMessages(setMethod( "ncol", "xlReference", ncol.xlReference ));
+
+  # this one seems to work regardless
 
   setMethod( "show", "xlReference", function(object){
     cat( "Excel Reference ", "R", object@R1, "C", object@C1, sep="" );
