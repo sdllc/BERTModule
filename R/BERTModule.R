@@ -309,7 +309,7 @@ history <- function( max.show=25, reverse=FALSE, pattern="" ){
 		.resolveObject <- function( name ){
 
 			p <- environment();
-			n <- unlist( strsplit( name, "[^\\w\\.]", F, T ));
+			n <- unlist( strsplit( name, "[^\\w\\.,]", F, T ));
 			 while( length( n ) > 1 ){
 				if( n == "" || !exists( n[1], where=p )) return( NULL );
 				p <- get( n[1], envir=p );
