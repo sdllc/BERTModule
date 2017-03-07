@@ -55,7 +55,13 @@ range.to.data.frame <- function( rng, headers=F ){
 	data <- if(headers) rng[-1,] else rng;
 
 	# format data
-	df <- as.data.frame( lapply( split( data, col(data)), unlist ));
+  if( is.null( ncol(data))){
+    # special case 
+    df <- as.data.frame( unlist( data ));
+  }
+  else {
+  	df <- as.data.frame( lapply( split( data, col(data)), unlist ));
+  }
 
 	# add headers if available
 	if( headers ){ colnames(df) <- rng[1,]; }
