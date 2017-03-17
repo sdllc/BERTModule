@@ -5,7 +5,8 @@
 \title{Create a BERT graphics device.}
 \usage{
 BERT.graphics.device(name = "BERT-default", bgcolor = "white",
-  width = 400, height = 400, pointsize = 14, cell = F)
+  width = 400, height = 400, pointsize = 14,
+  scale = Sys.getenv("BERTGraphicsScale"), cell = F)
 }
 \description{
 \code{BERT.graphics.device} creates a graphics device that renders to 
@@ -19,5 +20,8 @@ but in that case just toss the old one and a new one will be generated
 on the next paint).
 
 Size, background and pointsize arguments are ignored if the target 
-named shape already exists.
+named shape already exists.  The values for these arguments are 
+scaled based on reported screen DPI to give reasonable values on 
+normal and high-DPI displays (to prevent this behavior, set the scale 
+parameter to 1).
 }

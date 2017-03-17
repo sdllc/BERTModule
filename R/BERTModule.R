@@ -89,10 +89,20 @@ range.to.data.frame <- function( rng, headers=F ){
 #' on the next paint).
 #'
 #' Size, background and pointsize arguments are ignored if the target 
-#' named shape already exists.
+#' named shape already exists.  The values for these arguments are 
+#' scaled based on reported screen DPI to give reasonable values on 
+#' normal and high-DPI displays (to prevent this behavior, set the scale 
+#' parameter to 1).
 #'
 #' @export 
-BERT.graphics.device <- function( name="BERT-default", bgcolor="white", width=400, height=400, pointsize=14, cell=F ){
+BERT.graphics.device <- function( name="BERT-default", bgcolor="white", width=400, height=400, pointsize=14, scale=Sys.getenv("BERTGraphicsScale"), cell=F ){
+
+  scale <- as.numeric(scale);
+  if(is.na(scale) | is.null(scale)){ scale = 1; }
+
+  width = round( width * scale ); 
+  height = round( height * scale ); 
+  pointsize = round( pointsize * scale ); 
 
   if( cell ){
   	ref <- BERT$.Excel(89); # xlfCaller
