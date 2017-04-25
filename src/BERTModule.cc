@@ -147,7 +147,10 @@ SEXP BERTModule_create_device( SEXP name, SEXP background, SEXP width, SEXP heig
 }
 
 SEXP BERTModule_download( SEXP args ){
-  return callback( 100, args, 0 );
+  SEXP s = callback( 100, args, 0 );
+  int result = Rf_asInteger(s);
+  if( result < 0 ) Rf_error("Download failed");
+  return s;
 }
 
 SEXP BERTModule_progress_bar( SEXP args ){
